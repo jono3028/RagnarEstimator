@@ -8,9 +8,17 @@ Clone this repo to your local machine. See deployment for notes on how to deploy
 
 ### Prerequisites
 
-.Net Core 1.0.0
-MySQL 5.7
-
+You will need .Net Core 1.0.0 and MySQL 5.7 for this app to function correctly. Please see vendor documentation for correct installation. Create a appsettings.json file in the project's root folder.
+'''
+{
+  "DBConnection":
+  {
+    "Name": "MySQLconnect",
+    "ConnectionsString": "server=localhost;userid='yourIDhere;password=yourPWhere;port=yourPortHere;database=RagnarEstimator;SslMode=None"
+  }
+}
+'''
+Create a database named RagnarEstimator or edit the database name in appsettings.json.
 
 ### Installing
 

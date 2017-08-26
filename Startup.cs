@@ -1,7 +1,12 @@
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RagnarEstimator.Models;
+using Microsoft.EntityFrameworkCore;
+using MySQL.Data.EntityFrameworkCore.Extensions;
 
 namespace RagnarEstimator
 {
@@ -13,6 +18,7 @@ namespace RagnarEstimator
             // Add framework services.
             services.AddMvc();
             services.AddSession();
+            services.AddDbContext<RagnarEstimatorContext>(options => options.UseMySQL(Configuration["DBConnection:ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -23,6 +29,16 @@ namespace RagnarEstimator
             app.UseStaticFiles();
             app.UseSession();
             app.UseMvc();
+        }
+
+        public IConfiguration Configuration {get; private set;}
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
     }
 }
