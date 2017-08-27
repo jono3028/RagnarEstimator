@@ -18,7 +18,7 @@ You will need .Net Core 1.0.0 and MySQL 5.7 for this app to function correctly. 
   }
 }
 ```
-Create a database named RagnarEstimator or edit the database name in appsettings.json.
+Create a database named RagnarEstimator or edit the database name in appsettings.json to match you database.
 
 ### Installing
 
@@ -39,7 +39,7 @@ Not at this time
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/jono3028/RagnarEstimator/tags). 
+I am using [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/jono3028/RagnarEstimator/tags). 
 
 ## Authors
 
