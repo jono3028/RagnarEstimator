@@ -16,5 +16,10 @@ namespace RagnarEstimator.Models
     public float RunnerPaceMultiplyer {get; set;}
     public int RunnerSequence {get; set;}
     public List<RaceSegment> Segments { get; set; }
+
+    public User()
+    {
+      Segments = new List<RaceSegment>();
+    }
   }
 }

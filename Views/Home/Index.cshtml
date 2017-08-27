@@ -1,5 +1,36 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<h1>Default Blank Page~</h1>
-<p>Get to adding stuff</p>
+<h1 class="text-primary">Ragnar Relay Time Estimator</h1>
+<p class="text-secondary">Select a race to view or <a href="#" class="text-secondary">add a new one</a>.</p>
+<div class="container">
+    <section class="container-fluid">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Race Name</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Team Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @{
+                foreach (var race in ViewBag.AllRaces)
+                {
+                    <tr>
+                        <td>@race.RaceId</td>
+                        <td>@race.RaceName</td>
+                        <td>@((race.RaceType) ? "Trail" : "Road")</td>
+                        <td>@race.RaceStart.ToString("MM/dd/yyyy")</td>
+                        <td>@race.TeamName</td>
+                        <td><button type="button" class="btn btn-primary">View</button></td>
+                    </tr>
+                }
+            }            
+            </tbody>
+        </table>         
+    </section>
+</div>
