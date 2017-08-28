@@ -12,7 +12,7 @@ namespace RagnarEstimator.Models
     public string LastName {get; set;}
     public string NickName {get; set;}
     public string RunnerNotes {get; set;}
-    public DateTime RunnerPace {get; set;}
+    public TimeSpan RunnerPace {get; set;}
     public float RunnerPaceMultiplyer {get; set;}
     public int RunnerSequence {get; set;}
     public List<Lap> Laps {get; set;}
