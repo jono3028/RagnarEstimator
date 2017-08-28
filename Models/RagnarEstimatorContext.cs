@@ -4,8 +4,9 @@ namespace RagnarEstimator.Models
 {
   public class RagnarEstimatorContext : DbContext{
     public RagnarEstimatorContext(DbContextOptions<RagnarEstimatorContext> options) : base(options) {}
-    public DbSet<User> Users {get; set;}
-    public DbSet<RaceSegment> Segments {get; set;}
+    public DbSet<Runner> Runners {get; set;}
+    public DbSet<Course> Courses {get; set;}
+    public DbSet<Lap> Laps {get; set;}
     public DbSet<Race> Races {get; set;}
   }
 }

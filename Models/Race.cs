@@ -14,14 +14,18 @@ namespace RagnarEstimator.Models
     public DateTime Sunrise {get; set;}
     public float PaceMultiplyer {get; set;}
     public string RaceName {get; set;}
-    public bool RaceType {get; set;}
-    public string RaceNotes {get; set;}
+    public bool Type {get; set;}
+    public string Notes {get; set;}
     public string TeamName {get; set;}
-    public List<User> Runners {get; set;}
+    public List<Runner> Runners {get; set;}
+    public List<Course> Courses {get; set;}
+    public List<Lap> Laps {get; set;}
 
     public Race()
     {
-      Runners = new List<User>();
+      Runners = new List<Runner>();
+      Courses = new List<Course>();
+      Laps = new List<Lap>();
     }
   }
 }
