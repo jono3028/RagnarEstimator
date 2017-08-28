@@ -9,4 +9,4 @@ namespace RagnarEstimator.Models
     public DbSet<Lap> Laps {get; set;}
     public DbSet<Race> Races {get; set;}
   }
-}
+} 

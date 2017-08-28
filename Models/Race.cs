@@ -12,10 +12,10 @@ namespace RagnarEstimator.Models
     public DateTime RaceEnd {get; set;}
     public DateTime Sunset {get; set;}
     public DateTime Sunrise {get; set;}
-    public float PaceMultiplyer {get; set;}
+    public float RacePaceMultiplyer {get; set;}
     public string RaceName {get; set;}
     public bool Type {get; set;}
-    public string Notes {get; set;}
+    public string RaceNotes {get; set;}
     public string TeamName {get; set;}
     public List<Runner> Runners {get; set;}
     public List<Course> Courses {get; set;}

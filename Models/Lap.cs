@@ -8,7 +8,7 @@ namespace RagnarEstimator.Models
   {
     [Key]
     public int LapId {get; set;}
-    public int Sequence {get; set;}
+    public int LapSequence {get; set;}
     public int RunnerId {get; set;}
     public Runner Runner {get; set;}
     public int CourseId {get; set;}
@@ -17,6 +17,6 @@ namespace RagnarEstimator.Models
     public DateTime FinishTimeEst { get; set; }
     public DateTime StartTimeAct { get; set; }
     public DateTime FinishTimeAct { get; set; }
-    public string Notes {get; set;}
+    public string LapNotes {get; set;}
   }  
 }
