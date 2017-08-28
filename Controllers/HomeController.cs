@@ -30,7 +30,7 @@ namespace RagnarEstimator.Controllers
         [Route("ViewRace/{Id}")]
         public IActionResult RaceDetail(int Id)
         {
-            ViewBag.Race = _context.Races.Where(Race => Race.RaceId == Id).Include(Race => Race.Runners).SingleOrDefault();
+            ViewBag.Race = _context.Races.Where(Race => Race.RaceId == Id).Include(Race => Race.Runners).Include(Race => Race.Courses).SingleOrDefault();
             return View();
         }
     }
