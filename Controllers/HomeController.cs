@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RagnarEstimator.Models;
 
 namespace RagnarEstimator.Controllers
@@ -22,6 +23,14 @@ namespace RagnarEstimator.Controllers
         public IActionResult Index()
         {
             ViewBag.AllRaces = _context.Races.ToList();
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ViewRace/{Id}")]
+        public IActionResult RaceDetail(int Id)
+        {
+            ViewBag.Race = _context.Races.Where(Race => Race.RaceId == Id).Include(Race => Race.Runners).SingleOrDefault();
             return View();
         }
     }
