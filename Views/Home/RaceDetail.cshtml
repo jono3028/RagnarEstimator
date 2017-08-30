@@ -15,6 +15,42 @@
   </div>
 </div>
 <div class="container">
+  <section id="Times" class="container-fluid">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Lap</th>
+          <th>Name</th>
+          <th>Start Time Est</th>
+          <th>Finish Time Est</th>
+          <th>Start Time Act</th>
+          <th>Finish Time Act</th>
+        </tr>
+      </thead>
+      <tbody>
+        @{
+          foreach (var lap in ViewBag.Race.Laps)
+          {
+            <tr>
+              <td>@lap.LapSequence</td>
+              <td>@lap.Runner.FirstName</td>
+              <td>@lap.StartTimeEst.ToString("HH:mm")</td>
+              <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
+              @if (lap.LapSequence == 1)
+              {
+                <td>@lap.StartTimeAct.ToString("H:mm")</td>
+              } 
+              else 
+              {
+                <td><a href="/#">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter")</a></td>
+              }
+              <td><a href="/#">@(lap.FinishTimeAct != null ? lap.FinishTimeAct.ToString("HH:mm"):"Enter")</a></td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </section>
   <section id="Course" class="container-fluid">
     <h2 class="text-primary">Course</h2>
     <table class="table">

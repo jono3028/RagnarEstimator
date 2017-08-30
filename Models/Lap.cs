@@ -15,8 +15,8 @@ namespace RagnarEstimator.Models
     public Course Course {get; set;}
     public DateTime StartTimeEst { get; set; }
     public DateTime FinishTimeEst { get; set; }
-    public DateTime StartTimeAct { get; set; }
-    public DateTime FinishTimeAct { get; set; }
+    public DateTime? StartTimeAct {get; set;}
+    public DateTime? FinishTimeAct { get; set; }
     public string LapNotes {get; set;}
   }  
 }
