@@ -18,5 +18,11 @@ namespace RagnarEstimator.Models
     public DateTime? StartTimeAct {get; set;}
     public DateTime? FinishTimeAct { get; set; }
     public string LapNotes {get; set;}
+
+    public Lap()
+    {
+      StartTimeAct = null;
+      FinishTimeAct = null;
+    }
   }  
 }

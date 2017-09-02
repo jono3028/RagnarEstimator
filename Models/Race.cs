@@ -27,5 +27,34 @@ namespace RagnarEstimator.Models
       Courses = new List<Course>();
       Laps = new List<Lap>();
     }
+
+    private void UpdateEstFromStartTime(int LapId, DateTime STime)
+    {
+      var idx = LapId - 1;
+
+      while (idx < Laps.Count)
+      {
+        Lap _lap = Laps[idx];
+        _lap.FinishTimeEst = STime + TimeSpan.FromTicks(_lap.Runner.RunnerPace.Ticks * _lap.Course.Distance);
+
+        if (idx++ < Laps.Count)
+        {
+          Lap _lapNext = this.Laps[idx];
+          _lapNext.StartTimeEst = _lap.FinishTimeEst;
+        }
+      }
+    }
+    private void UpdateEstFromFinishTime(int LapId, DateTime FTime)
+    {
+      var idx = LapId;
+      
+      while (idx < Laps.Count)
+      {
+        Lap _lap = Laps[idx];
+        _lap.StartTimeEst = FTime;
+        this.UpdateEstFromStartTime(LapId, _lap.StartTimeEst);
+        idx++;
+      }
+    }
   }
 }
