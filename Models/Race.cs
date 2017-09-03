@@ -32,9 +32,9 @@ namespace RagnarEstimator.Models
     {
       var idx = LapId - 1;
 
-      while (idx < Laps.Count)
+      while (idx < this.Laps.Count)
       {
-        Lap _lap = Laps[idx];
+        Lap _lap = this.Laps[idx];
         _lap.FinishTimeEst = STime + TimeSpan.FromTicks(_lap.Runner.RunnerPace.Ticks * _lap.Course.Distance);
 
         if (idx++ < Laps.Count)
@@ -47,10 +47,10 @@ namespace RagnarEstimator.Models
     private void UpdateEstFromFinishTime(int LapId, DateTime FTime)
     {
       var idx = LapId;
-      
+
       while (idx < Laps.Count)
       {
-        Lap _lap = Laps[idx];
+        Lap _lap = this.Laps[idx];
         _lap.StartTimeEst = FTime;
         this.UpdateEstFromStartTime(LapId, _lap.StartTimeEst);
         idx++;

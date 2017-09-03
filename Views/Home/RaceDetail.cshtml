@@ -1,4 +1,4 @@
-@{ ViewData["Title"] = "Home Page"; }
+@{ ViewData["Title"] = "Race Details"; }
 <div class="container">
   <div class="row">
     <div class="col">
@@ -10,7 +10,7 @@
       <span class="text-secondary">@ViewBag.Race.RaceName (@ViewBag.Race.RaceStart.ToString("MM/dd/yyyy"))</span>
     </div>
     <div class="col-sm-2">
-      <a href="/" class="btn btn-primary float-right">Back</a>
+      <a href="/" class="btn btn-primary float-right">Home</a>
     </div>
   </div>
 </div>
@@ -36,14 +36,7 @@
               <td>@lap.Runner.FirstName</td>
               <td>@lap.StartTimeEst.ToString("HH:mm")</td>
               <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
-              @if (lap.LapSequence == 1)
-              {
-                <td>@lap.StartTimeAct.ToString("H:mm")</td>
-              } 
-              else 
-              {
-                <td><a href="/#">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter")</a></td>
-              }
+              <td><a href="/#">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter")</a></td>
               <td><a href="/#">@(lap.FinishTimeAct != null ? lap.FinishTimeAct.ToString("HH:mm"):"Enter")</a></td>
             </tr>
           }

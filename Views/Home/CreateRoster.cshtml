@@ -1,0 +1,29 @@
+@{ ViewData["Title"] = "Create Roster"; }
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="text-primary">Ragnar Relay Time Estimator</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-10">
+      <span class="text-secondary">Enter team member info</span>
+    </div>
+    <div class="col-sm-2">
+      <a href="/ViewRace/1" class="btn btn-primary float-right">Done</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <section class="container-fluid">
+    <form action="/CreateRunner" method="POST">
+      <div class="form-group">
+        <label for="newRunnerName">Runner Name</label>
+        <input type="text" class="form-control" id="newRunnerName">
+        <label for="newRunnerPace">Pace</label>
+        <input type="text" class="form-control" id="newRunnerPace">
+      </div>
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Runner</button>
+    </form>
+  </section>
+</div>
