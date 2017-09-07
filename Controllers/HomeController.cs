@@ -105,13 +105,33 @@ namespace RagnarEstimator.Controllers
         [Route("CreateCourse")]
         public IActionResult CreateCourse()
         {
+            int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+            Race EditRace = _context.Races
+                        .Where(Race => Race.RaceId == id)
+                        .Include(Race => Race.Courses)
+                        .Single();
+            ViewBag.FoundRace = EditRace;
             return View();
         }
         
         [HttpPost]
         [Route("CreateCourse")]
-        public IActionResult SaveNewCourse()
+        public IActionResult SaveNewCourse(CourseViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+                Course NewCourse = new Course
+                {
+                    Distance = model.newCourseDistance,
+                    ElevGain = model.newCourseElevation,
+                    Difficulty = model.newCourseDifficulty,
+                    CourseSequence = model.newCourseSequence
+                };
+                Race EditRace = _context.Races.Where(Race => Race.RaceId == id).Single();
+                EditRace.Courses.Add(NewCourse);
+                _context.SaveChanges();
+            }
             return RedirectToRoute(new{
                 controller = "Home",
                 action = "CreateCourse"

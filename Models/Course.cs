@@ -8,10 +8,9 @@ namespace RagnarEstimator.Models
   {
     [Key]
     public int CourseId {get; set;}
-    public int Distance {get; set;}
+    public decimal Distance {get; set;}
     public int ElevGain {get; set;}
     public int Difficulty {get; set;}
-    // public string ColorCode {get; set;}
     public int CourseSequence {get; set;}
     public string CourseNotes {get; set;}
     public List<Lap> Laps {get; set;}

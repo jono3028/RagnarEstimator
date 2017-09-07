@@ -35,7 +35,7 @@ namespace RagnarEstimator.Models
       while (idx < this.Laps.Count)
       {
         Lap _lap = this.Laps[idx];
-        _lap.FinishTimeEst = STime + TimeSpan.FromTicks(_lap.Runner.RunnerPace.Ticks * _lap.Course.Distance);
+        // _lap.FinishTimeEst = STime + TimeSpan.FromTicks(_lap.Runner.RunnerPace.Ticks * _lap.Course.Distance);
 
         if (idx++ < Laps.Count)
         {

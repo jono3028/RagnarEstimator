@@ -15,19 +15,47 @@
   </div>
 </div>
 <div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Difficulty</th>
+        <th>Distance</th>
+        <th>Elevation Gain</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @{ foreach (var course in ViewBag.FoundRace.Courses) {
+      <tr>
+        <td>@course.CourseId</td>
+        <td bgcolor="@course.ColorCode()">@course.Difficulty</td>
+        <td>@course.Distance</td>
+        <td>@course.ElevGain</td>
+        <td>@course.CourseNotes</td>
+        <td>
+          <a href="/#">Edit</a>
+        </td>
+      </tr>
+      } }
+    </tbody>
+  </table>
+</div>
+<div class="container">
   <section class="container-fluid">
     <form action="/CreateCourse" method="POST">
       <div class="form-group">
         <label for="newCourseDistance">Distance</label>
-        <input type="text" class="form-control" id="newCourseDistance">
+        <input type="number" step="0.01" class="form-control" name="newCourseDistance">
       </div>
       <div class="form-group">
         <label for="newCourseElevation">Elevation</label>
-        <input type="text" class="form-control" id="newCourseElevation">
+        <input type="number" step="1" class="form-control" name="newCourseElevation">
       </div>
       <div class="form-group">
         <label for="newCourseDifficulty">Difficulty</label>
-        <select class="form-control" id="newCourseDifficulty">
+        <select class="form-control" name="newCourseDifficulty">
           <option value="1">1 - Easy</option>
           <option value="2">2 - Medium</option>
           <option value="3">3 - Hard</option>
@@ -35,9 +63,9 @@
       </div>
       <div class="form-group">
         <label for="newCourseSequence">Sequence</label>
-        <input type="text" class="form-control" id="newCourseSequence">
+        <input type="number" step="1" class="form-control" name="newCourseSequence">
       </div>
-      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Runner</button>
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Race Segment</button>
     </form>
   </section>
 </div>
