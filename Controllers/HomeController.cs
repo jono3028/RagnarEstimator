@@ -23,6 +23,7 @@ namespace RagnarEstimator.Controllers
         [Route("")]
         public IActionResult Index()
         {
+            HttpContext.Session.Clear();
             ViewBag.AllRaces = _context.Races.ToList();
             return View();
         }
@@ -61,9 +62,26 @@ namespace RagnarEstimator.Controllers
 
         [HttpPost]
         [Route("CreateRace")]
-        public IActionResult SaveNewRace()
+        public IActionResult SaveNewRace(RaceViewModel model)
         {
-            return RedirectToAction("CreateCourse");
+            if(ModelState.IsValid)
+            {
+                DateTime Start = DateTime.Parse(model.newStartDate);
+                Race NewRace = new Race
+                {
+                    RaceName = model.newRaceName,
+                    RacePaceMultiplyer = model.newMultiplyer,
+                    RaceStart = Start + TimeSpan.Parse(model.newStartTime),
+                    RaceEnd = Start.AddDays(1) + TimeSpan.Parse(model.newEndTime),
+                    Type = (model.newRaceType == "true")? true : false,
+                    TeamName = model.newTeamName
+                };
+                _context.Add(NewRace);
+                _context.SaveChanges();
+                HttpContext.Session.SetInt32("WorkingRaceId", NewRace.RaceId);
+                return RedirectToAction("CreateCourse");
+            }
+            return RedirectToAction("CreateRace");
         }
 
         [HttpGet]

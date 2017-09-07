@@ -16,19 +16,23 @@
       <form action="/CreateRace" method="POST">
         <div class="form-group">
           <label for="newRaceName">Race Name</label>
-          <input type="text" class="form-control" id="newRaceName">
+          <input type="text" class="form-control" name="newRaceName">
+        </div>
+        <div class="form-group">
+          <label for="newMultiplyer">Race Multiplyer</label>
+          <input type="number" step="0.01" value ="1.00" class="form-control" name="newMultiplyer">
         </div>
         <div class="form-group">
           <label for="newStartDate">Start Date</label>
-          <input type="text" class="form-control" id="newStartDate">
+          <input type="date" class="form-control" name="newStartDate">
         </div>
         <div class="form-group">
           <label for="newStartTime">Start Time</label>
-          <input type="text" class="form-control" id="newStartTime">
+          <input type="time" class="form-control" name="newStartTime">
         </div>
         <div class="form-group">
           <label for="newEndTime">End Time</label>
-          <input type="text" class="form-control" id="newEndTime">
+          <input type="time" class="form-control" name="newEndTime">
         </div>
         <div class="form-check form-check-inline">
           <label class="form-check-label">
@@ -42,7 +46,7 @@
         </div>
         <div class="form-group">
           <label for="newTeamName">Team Name</label>
-          <input type="text" class="form-control" id="newTeamName">
+          <input type="text" class="form-control" name="newTeamName">
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
       </form>

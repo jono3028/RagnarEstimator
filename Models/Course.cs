@@ -11,7 +11,7 @@ namespace RagnarEstimator.Models
     public int Distance {get; set;}
     public int ElevGain {get; set;}
     public int Difficulty {get; set;}
-    public string ColorCode {get; set;}
+    // public string ColorCode {get; set;}
     public int CourseSequence {get; set;}
     public string CourseNotes {get; set;}
     public List<Lap> Laps {get; set;}
@@ -19,6 +19,20 @@ namespace RagnarEstimator.Models
     public Course()
     {
       Laps = new List<Lap>();
+    }
+    public string ColorCode()
+    {
+      switch (this.Difficulty)
+      {
+        case 1:
+          return "green";
+        case 2:
+          return "yellow";
+        case 3:
+          return "red";
+        default:
+          return "blue";
+      }
     }
   }
 }
