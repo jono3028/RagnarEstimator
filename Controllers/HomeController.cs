@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -88,13 +89,33 @@ namespace RagnarEstimator.Controllers
         [Route("CreateRoster")]
         public IActionResult CreateRoster()
         {
+            int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+            Race EditRace = _context.Races
+                        .Where(Race => Race.RaceId == id)
+                        .Include(Race => Race.Runners)
+                        .Single();
+            ViewBag.Runners = EditRace.Runners;
             return View();
         }
 
         [HttpPost]
         [Route("CreateRunner")]
-        public IActionResult SaveNewRunner()
+        public IActionResult SaveNewRunner(RunnerViewModel model)
         {
+            if(ModelState.IsValid)
+            {
+                int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+                Runner NewRunner = new Runner
+                {
+                    NickName = model.newRunnerName,
+                    RunnerPace = (int) TimeSpan.Parse("00:" + model.newRunnerPace).TotalSeconds,
+                    RunnerPaceMultiplyer = model.newRunnerMultiplyer,
+                    RunnerSequence = model.newRunnerSequence
+                };
+                Race EditRace = _context.Races.Where(Race => Race.RaceId == id).Single();
+                EditRace.Runners.Add(NewRunner);
+                _context.SaveChanges();
+            }
             return RedirectToRoute(new{
                 controller = "Home",
                 action = "CreateRoster"
