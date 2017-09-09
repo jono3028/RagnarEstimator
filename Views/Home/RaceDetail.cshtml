@@ -32,8 +32,8 @@
           foreach (var lap in ViewBag.Race.Laps)
           {
             <tr>
-              <td>@lap.LapSequence</td>
-              <td>@lap.Runner.FirstName</td>
+              <td bgcolor="@lap.Course.ColorCode()">@lap.LapSequence</td>
+              <td>@lap.Runner.NickName</td>
               <td>@lap.StartTimeEst.ToString("HH:mm")</td>
               <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
               <td><a href="/#">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter")</a></td>

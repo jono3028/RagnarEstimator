@@ -1,0 +1,44 @@
+@{ ViewData["Title"] = "Create Roster"; }
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="text-primary">Confirm setup of @ViewBag.FoundRace.RaceName</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-10">
+      <span class="text-secondary">Make Adjusetments as needed</span>
+    </div>
+    <div class="col-sm-2">
+      <a href="/ViewRace/@ViewBag.FoundRace.RaceId" class="btn btn-primary float-right">Done <span class="glyphicon glyphicon-checked" aria-hidden="true"></span></a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Pace</th>
+        <th>Multiplyer</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @{ foreach (var lap in ViewBag.FoundRace.Laps) {
+      <tr>
+        <td>@lap.Runner.NickName @lap.Runner.RunnerSequence</td>
+        <td>@lap.Course.Distance</td>
+        <td>@lap.Course.Difficulty</td>
+        <td>@lap.Course.ElevGain</td>
+        <td>@lap.LapSequence</td>
+        <td>
+          <a href="/#">Edit</a>
+        </td>
+      </tr>
+      } }
+    </tbody>
+  </table>
+</div>

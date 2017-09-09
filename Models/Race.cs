@@ -12,9 +12,9 @@ namespace RagnarEstimator.Models
     public DateTime RaceEnd {get; set;}
     public DateTime Sunset {get; set;}
     public DateTime Sunrise {get; set;}
-    public decimal RacePaceMultiplyer {get; set;}
+    public double RacePaceMultiplyer {get; set;}
     public string RaceName {get; set;}
-    public bool Type {get; set;}
+    public bool Type {get; set;} //false = Road, true = Trail
     public string RaceNotes {get; set;}
     public string TeamName {get; set;}
     public List<Runner> Runners {get; set;}
@@ -35,7 +35,7 @@ namespace RagnarEstimator.Models
       while (idx < this.Laps.Count)
       {
         Lap _lap = this.Laps[idx];
-        // _lap.FinishTimeEst = STime + TimeSpan.FromTicks(_lap.Runner.RunnerPace.Ticks * _lap.Course.Distance);
+        _lap.FinishTimeEst = STime + TimeSpan.FromSeconds(_lap.Runner.RunnerPace * _lap.Course.Distance);
 
         if (idx++ < Laps.Count)
         {

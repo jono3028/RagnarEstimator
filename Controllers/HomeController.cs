@@ -166,5 +166,84 @@ namespace RagnarEstimator.Controllers
             int RaceId = (int) HttpContext.Session.GetInt32("WorkingRaceId");
             return RedirectToAction("RaceDetail", RaceId);
         }
+
+        [HttpGet]
+        [Route("Confirm")]
+        public IActionResult ConfirmRace()
+        {
+            // int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+            int? id = 13;
+            Race EditRace = _context.Races
+                        .Where(r =>r.RaceId == id)
+                        .Include(r => r.Courses)
+                        .Include(r => r.Runners)
+                        .Include(r => r.Laps)
+                        .Single();
+            EditRace.Laps = EditRace.Laps.OrderBy(l => l.LapSequence).ToList();
+
+            ViewBag.FoundRace = EditRace;
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("CreateLaps")]
+        public IActionResult CreateLaps()
+        {
+            // int? id = HttpContext.Session.GetInt32("WorkingRaceId");
+            int? id = 13;
+
+            if (id == null)
+            {
+                return RedirectToRoute(new
+                {
+                  controller = "Home",
+                  action = "Index"
+                });
+            }
+            Race EditRace = _context.Races
+                        .Where(r => r.RaceId == id)
+                        .Include(r => r.Courses)
+                        .Include(r => r.Runners)
+                        .Include(r => r.Laps)
+                        .Single();
+            if (EditRace.Laps.Count() == 0)
+            {            
+                int TotalLaps = (EditRace.Type)? 24 : 8;
+                int TotalRunners = EditRace.Runners.Count();
+                int TotalCourses = EditRace.Courses.Count();
+
+                DateTime newStart = EditRace.RaceStart;
+
+                for (var i = 1; i <= TotalLaps; i++)
+                {
+                    Runner ActiveRunner = EditRace.Runners
+                                .Where(r => r.RunnerSequence == ((i % TotalRunners == 0) ? TotalRunners : i % TotalRunners))
+                                .Single();
+                    Course ActiveCourse = EditRace.Courses
+                                .Where(r => r.CourseSequence == ((i % TotalCourses == 0) ? TotalCourses : i % TotalCourses))
+                                .Single();
+                    Lap NewLap = new Lap
+                    {
+                        LapSequence = i,
+                        RunnerId = ActiveRunner.RunnerId,
+                        Runner = ActiveRunner,
+                        CourseId = ActiveCourse.CourseId,
+                        Course = ActiveCourse,
+                        StartTimeEst = newStart,
+                        FinishTimeEst = (newStart + (TimeSpan.FromSeconds((ActiveRunner.RunnerPace * ActiveCourse.Distance) * EditRace.RacePaceMultiplyer)))
+                    };
+                    newStart = NewLap.FinishTimeEst;
+                    EditRace.Laps.Add(NewLap);
+                    _context.SaveChanges();
+                }
+            }
+            
+            return RedirectToRoute(new
+            {
+              controller = "Home",
+              action = "ConfirmRace"
+            });
+        }
     }
 }

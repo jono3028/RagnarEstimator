@@ -19,7 +19,7 @@ namespace RagnarEstimator.Models
 
     public string newRaceType {get; set;}
 
-    public decimal newMultiplyer {get; set;}
+    public double newMultiplyer {get; set;}
 
     public string newTeamName {get; set;}
   }
