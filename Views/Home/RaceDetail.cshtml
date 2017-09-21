@@ -36,8 +36,8 @@
               <td>@lap.Runner.NickName</td>
               <td>@lap.StartTimeEst.ToString("HH:mm")</td>
               <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
-              <td><a href="/#">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter")</a></td>
-              <td><a href="/#">@(lap.FinishTimeAct != null ? lap.FinishTimeAct.ToString("HH:mm"):"Enter")</a></td>
+              <td><a href="#UpdateTimeModal" data-toggle="modal" data-lapsequence="@lap.LapSequence" data-lapposition="Start">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter Time")</a></td>
+              <td><a href="#UpdateTimeModal" data-toggle="modal" data-lapsequence="@lap.LapSequence" data-lapposition="Finish">@(lap.FinishTimeAct != null ? lap.FinishTimeAct.ToString("HH:mm"):"Enter Time")</a></td>
             </tr>
           }
         }
@@ -64,8 +64,8 @@
             <tr>
               <td>@course.CourseId</td>
               <td  bgcolor="@course.ColorCode()">@course.Difficulty</td>
-              <td>@course.Distance</td>
-              <td>@course.ElevGain</td>
+              <td>@course.Distance.ToString("#0.00") mi</td>
+              <td>@course.ElevGain ft</td>
               <td>@course.CourseNotes</td>
               <td>
                 <a href="/#">Edit</a>
@@ -108,4 +108,31 @@
       </tbody>
     </table>
   </section>
+</div>
+<div class="container">
+   <!-- Modal -->
+  <div class="modal fade" id="UpdateTimeModal" role="dialog">
+    <div class="modal-dialog" role="document">
+
+      <!-- Modal content-->
+      <form class="modal-content" action="formAction" method="POST">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+            <div clcass="form-group">
+              <label for="newTime">Enter Time</label>
+              <input type="time" class="form-control" name="newTime">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit">Update</button>
+          <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
 </div>
