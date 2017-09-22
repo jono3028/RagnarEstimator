@@ -33,6 +33,7 @@ namespace RagnarEstimator.Controllers
         [Route("ViewRace/{id}")]
         public IActionResult RaceDetail(int id)
         {
+            // Race FoundRace = _GetRaceById(id);
             Race FoundRace = _context.Races
                             .Where(Race => Race.RaceId == id)
                             .Include(Race => Race.Runners)
@@ -161,10 +162,35 @@ namespace RagnarEstimator.Controllers
 
         [HttpPost]
         [Route("UpdateTimes/{lapId}/{position}")]
-        public IActionResult UpdateTimeEstimates(int lapId, string position)
+        public IActionResult UpdateTimeEstimates(int lapId, string position, UpdateTimeViewModel model)
         {
-            int RaceId = (int) HttpContext.Session.GetInt32("WorkingRaceId");
-            return RedirectToAction("RaceDetail", RaceId);
+            int id = (int) HttpContext.Session.GetInt32("WorkingRaceId");
+
+            Race EditRace = _context.Races
+                        .Where(r => r.RaceId == id)
+                        .Include(r => r.Courses)
+                        .Include(r => r.Runners)
+                        .Include(r => r.Laps)
+                        .Single();
+            EditRace.Laps = EditRace.Laps.OrderBy(l => l.LapSequence).ToList();
+            
+            lapId--; //COnvert Lap sequence ID to Lap list index
+            TimeSpan newTime = TimeSpan.Parse(model.newTime);
+
+            if (position == "Start")
+            {
+                EditRace.UpdateStartTime(lapId, newTime);                
+            }
+            if (position == "Finish")
+            {
+                EditRace.UpdateFinishTime(lapId, newTime);
+            }
+
+            EditRace.UpdatedAt = DateTime.Now;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("RaceDetail", new{id = id});
         }
 
         [HttpGet]
@@ -174,7 +200,7 @@ namespace RagnarEstimator.Controllers
             // int? id = HttpContext.Session.GetInt32("WorkingRaceId");
             int? id = 13;
             Race EditRace = _context.Races
-                        .Where(r =>r.RaceId == id)
+                        .Where(r => r.RaceId == id)
                         .Include(r => r.Courses)
                         .Include(r => r.Runners)
                         .Include(r => r.Laps)
@@ -190,10 +216,9 @@ namespace RagnarEstimator.Controllers
         [Route("CreateLaps")]
         public IActionResult CreateLaps()
         {
-            // int? id = HttpContext.Session.GetInt32("WorkingRaceId");
-            int? id = 13;
+            int? id = HttpContext.Session.GetInt32("WorkingRaceId");
 
-            if (id == null)
+            if (!id.HasValue)
             {
                 return RedirectToRoute(new
                 {
@@ -231,7 +256,7 @@ namespace RagnarEstimator.Controllers
                         CourseId = ActiveCourse.CourseId,
                         Course = ActiveCourse,
                         StartTimeEst = newStart,
-                        FinishTimeEst = (newStart + (TimeSpan.FromSeconds((ActiveRunner.RunnerPace * ActiveCourse.Distance) * EditRace.RacePaceMultiplyer)))
+                        FinishTimeEst = newStart + (TimeSpan.FromSeconds((ActiveRunner.RunnerPace * ActiveCourse.Distance) * EditRace.RacePaceMultiplyer))
                     };
                     newStart = NewLap.FinishTimeEst;
                     EditRace.Laps.Add(NewLap);

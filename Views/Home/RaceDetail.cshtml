@@ -22,8 +22,8 @@
           <th>Lap</th>
           <th>Name</th>
           <th>Start Time Est</th>
-          <th>Finish Time Est</th>
           <th>Start Time Act</th>
+          <th>Finish Time Est</th>
           <th>Finish Time Act</th>
         </tr>
       </thead>
@@ -35,8 +35,8 @@
               <td bgcolor="@lap.Course.ColorCode()">@lap.LapSequence</td>
               <td>@lap.Runner.NickName</td>
               <td>@lap.StartTimeEst.ToString("HH:mm")</td>
-              <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
               <td><a href="#UpdateTimeModal" data-toggle="modal" data-lapsequence="@lap.LapSequence" data-lapposition="Start">@(lap.StartTimeAct != null ? lap.StartTimeAct.ToString("HH:mm"):"Enter Time")</a></td>
+              <td>@lap.FinishTimeEst.ToString("HH:mm")</td>
               <td><a href="#UpdateTimeModal" data-toggle="modal" data-lapsequence="@lap.LapSequence" data-lapposition="Finish">@(lap.FinishTimeAct != null ? lap.FinishTimeAct.ToString("HH:mm"):"Enter Time")</a></td>
             </tr>
           }

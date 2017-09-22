@@ -23,6 +23,7 @@
                 <tr>
                     <th>#</th>
                     <th>Race Name</th>
+                    <th>Pace Multiplyer</th>
                     <th>Type</th>
                     <th>Date</th>
                     <th>Team Name</th>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>@race.RaceId</td>
                         <td>@race.RaceName</td>
+                        <td>@race.RacePaceMultiplyer</td>
                         <td>@((race.Type) ? "Trail" : "Road")</td>
                         <td>@race.RaceStart.ToString("MM/dd/yyyy")</td>
                         <td>@race.TeamName</td>
