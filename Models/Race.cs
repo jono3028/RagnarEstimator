@@ -19,6 +19,7 @@ namespace RagnarEstimator.Models
     public bool Type {get; set;} //false = Road, true = Trail
     public string RaceNotes {get; set;}
     public string TeamName {get; set;}
+    public int? TeamNumber {get; set;}
     public List<Runner> Runners {get; set;}
     public List<Course> Courses {get; set;}
     public List<Lap> Laps {get; set;}

@@ -40,7 +40,15 @@
                         <td>@race.RacePaceMultiplyer</td>
                         <td>@((race.Type) ? "Trail" : "Road")</td>
                         <td>@race.RaceStart.ToString("MM/dd/yyyy")</td>
-                        <td>@race.TeamName</td>
+                        <td>
+                            @race.TeamName 
+                            @if (race.TeamNumber != null)
+                            {
+                                <text>
+                                    (@race.TeamNumber)
+                                </text>
+                            }
+                        </td>
                         <td>
                             <a href="/ViewRace/@race.RaceId">View</a> | <a href="/#">Edit</a>
                         </td>
