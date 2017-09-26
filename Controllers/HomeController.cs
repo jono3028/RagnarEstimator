@@ -18,6 +18,25 @@ namespace RagnarEstimator.Controllers
         {
             _context = context;
         }
+        
+        private Race GetRaceById(int id)
+        {
+            Race FoundRace = _context.Races
+                            .Where(Race => Race.RaceId == id)
+                            .Include(Race => Race.Runners)
+                            .Include(Race => Race.Courses)
+                            .Include(r => r.Laps)
+                                .ThenInclude(l => l.Runner)
+                            .Include(r => r.Laps)
+                                .ThenInclude(l => l.Course)
+                            .SingleOrDefault();
+
+            FoundRace.Laps = FoundRace.Laps.OrderBy(l => l.LapSequence).ToList();
+            FoundRace.Courses = FoundRace.Courses.OrderBy(c => c.CourseSequence).ToList();
+            FoundRace.Runners = FoundRace.Runners.OrderBy(r => r.RunnerSequence).ToList();
+
+            return FoundRace;
+        }
 
         // GET: /Home/
         [HttpGet]
@@ -33,20 +52,7 @@ namespace RagnarEstimator.Controllers
         [Route("ViewRace/{id}")]
         public IActionResult RaceDetail(int id)
         {
-            // Race FoundRace = _GetRaceById(id);
-            Race FoundRace = _context.Races
-                            .Where(Race => Race.RaceId == id)
-                            .Include(Race => Race.Runners)
-                            .Include(Race => Race.Courses)
-                            .Include(r => r.Laps)
-                                .ThenInclude(l => l.Runner)
-                            .Include(r => r.Laps)
-                                .ThenInclude(l => l.Course)
-                            .SingleOrDefault();
-
-            FoundRace.Laps = FoundRace.Laps.OrderBy(l => l.LapSequence).ToList();
-            FoundRace.Courses = FoundRace.Courses.OrderBy(c => c.CourseSequence).ToList();
-            FoundRace.Runners = FoundRace.Runners.OrderBy(r => r.RunnerSequence).ToList();
+            Race FoundRace = GetRaceById(id);
 
             HttpContext.Session.SetInt32("WorkingRaceId", FoundRace.RaceId);
             ViewBag.Race = FoundRace;
@@ -174,7 +180,7 @@ namespace RagnarEstimator.Controllers
                         .Single();
             EditRace.Laps = EditRace.Laps.OrderBy(l => l.LapSequence).ToList();
             
-            lapId--; //COnvert Lap sequence ID to Lap list index
+            lapId--; //Convert Lap sequence ID to Lap list index
             TimeSpan newTime = TimeSpan.Parse(model.newTime);
 
             if (position == "Start")
@@ -197,16 +203,18 @@ namespace RagnarEstimator.Controllers
         [Route("Confirm")]
         public IActionResult ConfirmRace()
         {
-            // int? id = HttpContext.Session.GetInt32("WorkingRaceId");
-            int? id = 13;
-            Race EditRace = _context.Races
-                        .Where(r => r.RaceId == id)
-                        .Include(r => r.Courses)
-                        .Include(r => r.Runners)
-                        .Include(r => r.Laps)
-                        .Single();
-            EditRace.Laps = EditRace.Laps.OrderBy(l => l.LapSequence).ToList();
+            int? id = HttpContext.Session.GetInt32("WorkingRaceId");
 
+            if (!id.HasValue)
+            {
+                return RedirectToRoute(new
+                {
+                controller = "Home",
+                action = "Index"
+                });
+            }
+
+            Race EditRace = GetRaceById((int) id);
             ViewBag.FoundRace = EditRace;
 
             return View();
@@ -226,12 +234,9 @@ namespace RagnarEstimator.Controllers
                   action = "Index"
                 });
             }
-            Race EditRace = _context.Races
-                        .Where(r => r.RaceId == id)
-                        .Include(r => r.Courses)
-                        .Include(r => r.Runners)
-                        .Include(r => r.Laps)
-                        .Single();
+            
+            Race EditRace = GetRaceById((int) id);
+
             if (EditRace.Laps.Count() == 0)
             {            
                 int TotalLaps = (EditRace.Type)? 24 : 8;
@@ -260,8 +265,8 @@ namespace RagnarEstimator.Controllers
                     };
                     newStart = NewLap.FinishTimeEst;
                     EditRace.Laps.Add(NewLap);
-                    _context.SaveChanges();
                 }
+                _context.SaveChanges();
             }
             
             return RedirectToRoute(new
